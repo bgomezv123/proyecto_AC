@@ -29,7 +29,7 @@ raya_amarilla=pygame.image.load("raya.png")
 raya_blanca=pygame.image.load("strip.jpg")
 car_width=56
 
-def pointCoordenates(frame):
+def dibujarCoordenadas(frame):
 	global coorX, coorY 
 	verdeBajo = np.array([36, 100, 20])
 	verdeAlto = np.array([70, 255, 255])
@@ -51,7 +51,7 @@ def pointCoordenates(frame):
 			cv2.drawContours(frame, [contorSuavi], 0, (255, 0, 0), 3) 
 
 
-def openCamera():
+def abrirCamara():
 	global pos_X,coorX,coorY  
 	while (True): 
 		ret, frame = cap.read() 
@@ -65,7 +65,7 @@ def openCamera():
 			coorY = int(i / 2)
 			cv2.line(frame, (x_medio_der, 0), (x_medio_der, i), (255, 255, 0), 2)
 			cv2.line(frame, (x_medio_izq, 0), (x_medio_izq, i), (255, 255, 0), 2)
-			pointCoordenates(frame)
+			dibujarCoordenadas(frame)
 			if (coorX > 0 and coorX < x_medio_izq):
 				pos_X = -1
 			if (coorX >= x_medio_izq and coorX <= x_medio_der):
@@ -154,5 +154,5 @@ def juego_loop():
 			choque()
 
 		pygame.display.update()
-threadCamera = threading.Thread(target=openCamera)
+threadCamera = threading.Thread(target=abrirCamara)
 threadCamera.start()
