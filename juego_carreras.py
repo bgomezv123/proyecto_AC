@@ -24,9 +24,9 @@ carimg=pygame.transform.scale(carimg, (56, 125))
 cap = cv2.VideoCapture(0)                 
 font = cv2.FONT_HERSHEY_SIMPLEX
 pos_X=0
-backgroundpic=pygame.image.load("123.jpg")
-yellow_strip=pygame.image.load("raya.png")
-strip=pygame.image.load("strip.jpg")
+background_arboles=pygame.image.load("123.jpg")
+raya_amarilla=pygame.image.load("raya.png")
+raya_blanca=pygame.image.load("strip.jpg")
 car_width=56
 
 def pointCoordenates(frame):
@@ -126,26 +126,26 @@ def juego_loop():
 
 		x+=pos_X
 		gamedisplays.fill(gray)		
-		rel_y=y2%backgroundpic.get_rect().width
-		gamedisplays.blit(backgroundpic,(0,rel_y-backgroundpic.get_rect().width))
-		gamedisplays.blit(backgroundpic,(700,rel_y-backgroundpic.get_rect().width))
+		rel_y=y2%background_arboles.get_rect().width
+		gamedisplays.blit(background_arboles,(0,rel_y-background_arboles.get_rect().width))
+		gamedisplays.blit(background_arboles,(700,rel_y-background_arboles.get_rect().width))
 
 		if rel_y<800:
-			gamedisplays.blit(backgroundpic,(0,rel_y))
-			gamedisplays.blit(backgroundpic,(700,rel_y))
-			gamedisplays.blit(yellow_strip,(400,rel_y))
-			gamedisplays.blit(yellow_strip,(400,rel_y+120))
-			gamedisplays.blit(yellow_strip,(400,rel_y+240))
-			gamedisplays.blit(yellow_strip,(400,rel_y+360))
-			gamedisplays.blit(yellow_strip,(400,rel_y+480))
-			gamedisplays.blit(yellow_strip,(400,rel_y+600))
-			gamedisplays.blit(yellow_strip,(400,rel_y-120))
-			gamedisplays.blit(strip,(120,rel_y-200))
-			gamedisplays.blit(strip,(120,rel_y+20))
-			gamedisplays.blit(strip,(120,rel_y+30))
-			gamedisplays.blit(strip,(680,rel_y-100))
-			gamedisplays.blit(strip,(680,rel_y+20))
-			gamedisplays.blit(strip,(680,rel_y+30))
+			gamedisplays.blit(background_arboles,(0,rel_y))
+			gamedisplays.blit(background_arboles,(700,rel_y))
+			gamedisplays.blit(raya_amarilla,(400,rel_y))
+			gamedisplays.blit(raya_amarilla,(400,rel_y+120))
+			gamedisplays.blit(raya_amarilla,(400,rel_y+240))
+			gamedisplays.blit(raya_amarilla,(400,rel_y+360))
+			gamedisplays.blit(raya_amarilla,(400,rel_y+480))
+			gamedisplays.blit(raya_amarilla,(400,rel_y+600))
+			gamedisplays.blit(raya_amarilla,(400,rel_y-120))
+			gamedisplays.blit(raya_blanca,(120,rel_y-200))
+			gamedisplays.blit(raya_blanca,(120,rel_y+20))
+			gamedisplays.blit(raya_blanca,(120,rel_y+30))
+			gamedisplays.blit(raya_blanca,(680,rel_y-100))
+			gamedisplays.blit(raya_blanca,(680,rel_y+20))
+			gamedisplays.blit(raya_blanca,(680,rel_y+30))
 		y2+=2
 		car(x, y)
 		if x>690-car_width or x<110:
@@ -154,5 +154,5 @@ def juego_loop():
 			choque()
 
 		pygame.display.update()
-#threadCamera = threading.Thread(target=openCamera)
-#threadCamera.start()
+threadCamera = threading.Thread(target=openCamera)
+threadCamera.start()
