@@ -1,3 +1,6 @@
+
+#GOMEZ VELASCO BRIAN JOSEPH
+#PROYECTO - ARQUITECTURA DE COMPUTADORAS
 import pygame
 import numpy as np
 import time 
