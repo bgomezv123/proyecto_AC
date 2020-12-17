@@ -28,6 +28,12 @@ cap = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_SIMPLEX
 pos_X=0
 
+backgroundpic=pygame.image.load("123.jpg")
+yellow_strip=pygame.image.load("raya.png")
+#strip=pygame.image.load("strip.jpg")
+car_width=56
+
+
 def pointCoordenates(frame):
 	global coorX, coorY 
 	verdeBajo = np.array([36, 100, 20])
@@ -86,6 +92,8 @@ def juego_loop():
 	global pos_X
 	x = 400
 	y = 460
+	y_change=0
+	y2=7
 
 	while True:
 		for event in pygame.event.get():
@@ -97,12 +105,35 @@ def juego_loop():
 					pos_X=-6
 				if event.key==pygame.K_RIGHT:
 					pos_X = 6
+				if event.key==pygame.K_a:
+					obstacle_speed+=2
+				if event.key==pygame.K_b:
+					obstacle_speed-=2
 			if event.type==pygame.KEYUP:
 				if event.key==pygame.K_LEFT or event.key==pygame.K_RIGHT:
 					pos_X=0
 
 		x+=pos_X
 		gamedisplays.fill(gray)
+		
+
+		rel_y=y2%backgroundpic.get_rect().width
+		gamedisplays.blit(backgroundpic,(0,rel_y-backgroundpic.get_rect().width))
+		gamedisplays.blit(backgroundpic,(700,rel_y-backgroundpic.get_rect().width))
+
+		if rel_y<800:
+				gamedisplays.blit(backgroundpic,(0,rel_y))
+				gamedisplays.blit(backgroundpic,(700,rel_y))
+				gamedisplays.blit(yellow_strip,(400,rel_y))
+				gamedisplays.blit(yellow_strip,(400,rel_y+120))
+				gamedisplays.blit(yellow_strip,(400,rel_y+240))
+				gamedisplays.blit(yellow_strip,(400,rel_y+360))
+				gamedisplays.blit(yellow_strip,(400,rel_y+480))
+				gamedisplays.blit(yellow_strip,(400,rel_y+600))
+				gamedisplays.blit(yellow_strip,(400,rel_y-120))
+
+		y2+=1
+
 		car(x, y)
 
 		pygame.display.update()
