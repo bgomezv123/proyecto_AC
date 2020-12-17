@@ -110,4 +110,3 @@ def juego_loop():
 		pygame.display.update()
 
 
-openCamera()
