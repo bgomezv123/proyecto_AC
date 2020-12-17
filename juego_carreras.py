@@ -15,24 +15,19 @@ blue=(0,0,200)
 bright_red=(255,0,0)
 bright_green=(0,255,0)
 bright_blue=(0,0,255)
-
 display_width=800
 display_height=600
 pygame.display.set_caption("car game")
 gamedisplays=pygame.display.set_mode((display_width,display_height))
-
 carimg=pygame.image.load('car1.png')
 carimg=pygame.transform.scale(carimg, (56, 125))
-
 cap = cv2.VideoCapture(0)                 
 font = cv2.FONT_HERSHEY_SIMPLEX
 pos_X=0
-
 backgroundpic=pygame.image.load("123.jpg")
 yellow_strip=pygame.image.load("raya.png")
-#strip=pygame.image.load("strip.jpg")
+strip=pygame.image.load("strip.jpg")
 car_width=56
-
 
 def pointCoordenates(frame):
 	global coorX, coorY 
@@ -72,11 +67,11 @@ def openCamera():
 			cv2.line(frame, (x_medio_izq, 0), (x_medio_izq, i), (255, 255, 0), 2)
 			pointCoordenates(frame)
 			if (coorX > 0 and coorX < x_medio_izq):
-				pos_X = -0.7
+				pos_X = -1
 			if (coorX >= x_medio_izq and coorX <= x_medio_der):
 				pos_X = 0
 			if (coorX > x_medio_der and coorX < j):
-				pos_X = 0.7
+				pos_X = 1
 			cv2.imshow('camara', frame)
 			if cv2.waitKey(1) & 0xFF == ord('s'):
 				break
@@ -84,8 +79,25 @@ def openCamera():
 	cv2.destroyAllWindows()
 
 
-def car(x,y):  
-    gamedisplays.blit(carimg,(x,y))
+def text_objects(text,font):
+    textsurface=font.render(text,True,black)
+    return textsurface,textsurface.get_rect()
+
+def mensaje_display(text):
+    largetext=pygame.font.Font("freesansbold.ttf",80)
+    textsurf,textrect=text_objects(text,largetext)
+    textrect.center=((display_width/2),(display_height/2))
+    gamedisplays.blit(textsurf,textrect)
+    pygame.display.update()
+    time.sleep(3)
+    juego_loop()
+
+def choque():
+	mensaje_display("CHOQUE!!!")
+
+
+def car(x,y):
+	gamedisplays.blit(carimg,(x,y))
 
 def juego_loop():
 	
@@ -94,7 +106,6 @@ def juego_loop():
 	y = 460
 	y_change=0
 	y2=7
-
 	while True:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:		
@@ -102,9 +113,9 @@ def juego_loop():
 				quit()
 			if event.type==pygame.KEYDOWN:
 				if event.key==pygame.K_LEFT:
-					pos_X=-6
+					pos_X=-1.5
 				if event.key==pygame.K_RIGHT:
-					pos_X = 6
+					pos_X =1.5
 				if event.key==pygame.K_a:
 					obstacle_speed+=2
 				if event.key==pygame.K_b:
@@ -114,31 +125,34 @@ def juego_loop():
 					pos_X=0
 
 		x+=pos_X
-		gamedisplays.fill(gray)
-		
-
+		gamedisplays.fill(gray)		
 		rel_y=y2%backgroundpic.get_rect().width
 		gamedisplays.blit(backgroundpic,(0,rel_y-backgroundpic.get_rect().width))
 		gamedisplays.blit(backgroundpic,(700,rel_y-backgroundpic.get_rect().width))
 
 		if rel_y<800:
-				gamedisplays.blit(backgroundpic,(0,rel_y))
-				gamedisplays.blit(backgroundpic,(700,rel_y))
-				gamedisplays.blit(yellow_strip,(400,rel_y))
-				gamedisplays.blit(yellow_strip,(400,rel_y+120))
-				gamedisplays.blit(yellow_strip,(400,rel_y+240))
-				gamedisplays.blit(yellow_strip,(400,rel_y+360))
-				gamedisplays.blit(yellow_strip,(400,rel_y+480))
-				gamedisplays.blit(yellow_strip,(400,rel_y+600))
-				gamedisplays.blit(yellow_strip,(400,rel_y-120))
-
-		y2+=1
-
+			gamedisplays.blit(backgroundpic,(0,rel_y))
+			gamedisplays.blit(backgroundpic,(700,rel_y))
+			gamedisplays.blit(yellow_strip,(400,rel_y))
+			gamedisplays.blit(yellow_strip,(400,rel_y+120))
+			gamedisplays.blit(yellow_strip,(400,rel_y+240))
+			gamedisplays.blit(yellow_strip,(400,rel_y+360))
+			gamedisplays.blit(yellow_strip,(400,rel_y+480))
+			gamedisplays.blit(yellow_strip,(400,rel_y+600))
+			gamedisplays.blit(yellow_strip,(400,rel_y-120))
+			gamedisplays.blit(strip,(120,rel_y-200))
+			gamedisplays.blit(strip,(120,rel_y+20))
+			gamedisplays.blit(strip,(120,rel_y+30))
+			gamedisplays.blit(strip,(680,rel_y-100))
+			gamedisplays.blit(strip,(680,rel_y+20))
+			gamedisplays.blit(strip,(680,rel_y+30))
+		y2+=2
 		car(x, y)
+		if x>690-car_width or x<110:
+			choque()
+		if x>display_width-(car_width+110) or x<110:
+			choque()
 
 		pygame.display.update()
-
-
-
-threadCamera = threading.Thread(target=openCamera)
-threadCamera.start()
+#threadCamera = threading.Thread(target=openCamera)
+#threadCamera.start()
