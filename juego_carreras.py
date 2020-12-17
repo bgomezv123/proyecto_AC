@@ -26,7 +26,7 @@ carimg=pygame.image.load('car1.png')
 carimg=pygame.transform.scale(carimg, (56, 125))
 
 cap = cv2.VideoCapture(0)                 
-
+font = cv2.FONT_HERSHEY_SIMPLEX
 
 
 
@@ -40,6 +40,12 @@ def pointCoordenates(frame):
     for contor in contornos:
         area = cv2.contourArea(contor) 
         if area > 3000:
+            centros = cv2.moments(contor)
+            if (centros["m00"] == 0): centros["m00"] = 1
+            x = int(centros["m10"] / centros["m00"])
+            y = int(centros["m01"] / centros["m00"])
+            cv2.circle(frame, (x, y), 7, (9, 231, 9), -1)
+            cv2.putText(frame, '{},{}'.format(x, y), (x + 10, y), font, 0.75, (9, 231, 9), 1, cv2.LINE_AA)
             contorSuavi = cv2.convexHull(contor) 
             cv2.drawContours(frame, [contorSuavi], 0, (255, 0, 0), 3) 
 
