@@ -25,6 +25,40 @@ gamedisplays=pygame.display.set_mode((display_width,display_height))
 carimg=pygame.image.load('car1.png')
 carimg=pygame.transform.scale(carimg, (56, 125))
 
+cap = cv2.VideoCapture(0)                 
+
+
+
+
+
+def pointCoordenates(frame):
+    verdeBajo = np.array([36, 100, 20])
+    verdeAlto = np.array([70, 255, 255])    
+    frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    mask = cv2.inRange(frameHSV, verdeBajo, verdeAlto)
+    contornos, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for contor in contornos:
+        area = cv2.contourArea(contor) 
+        if area > 3000:
+            contorSuavi = cv2.convexHull(contor) 
+            cv2.drawContours(frame, [contorSuavi], 0, (255, 0, 0), 3) 
+
+def openCamera():
+    while (True): 
+        ret, frame = cap.read() 
+        frame = cv2.flip(frame, 1)
+        if ret == True:        
+            pointCoordenates(frame)        
+            cv2.imshow('camara', frame) 
+            if cv2.waitKey(1) & 0xFF == ord('s'): 
+                break
+    cap.release() 
+    cv2.destroyAllWindows() 
+
+
+
+
+
 def car(x,y):  
     gamedisplays.blit(carimg,(x,y))
 
@@ -57,17 +91,4 @@ def juego_loop():
 		pygame.display.update()
 
 
-
-		
-
-
-
-		
-
-
-		
-
-
-
-
-juego_loop()
+openCamera()
