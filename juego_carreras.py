@@ -46,10 +46,33 @@ def intro_loop():
 				quit()
 				sys.exit()
 		gamedisplays.blit(fondo_intro,(0,0))
+		
+
 		largetext=pygame.font.Font('freesansbold.ttf',115)
-		TextSurf,TextRect=text_objects("CAR GAME",largetext)
+		
+
+		TextSurf,TextRect=text_objects("JUEGO DE",largetext)
 		TextRect.center=(400,100)
 		gamedisplays.blit(TextSurf,TextRect)
+
+
+		TextSurf,TextRect=text_objects("CARRERAS",largetext)
+		TextRect.center=(400,200)
+		gamedisplays.blit(TextSurf,TextRect)
+
+		largetext=pygame.font.Font('freesansbold.ttf',30)
+		label = largetext.render("PROYECTO AC - 2020", 1, (249, 53, 14))
+		TextRect = label.get_rect()
+		TextRect.center=(400,400)
+		gamedisplays.blit(label,TextRect)
+
+		label = largetext.render("GOMEZ VELASCO BRIAN JOSEPH", 1, (249, 53, 14))
+		TextRect = label.get_rect()
+		TextRect.center=(400,450)
+		gamedisplays.blit(label,TextRect)
+
+
+
 		button("JUGAR",150,520,100,50,green,bright_green,"jugar")
 		button("SALIR",550,520,100,50,red,bright_red,"salir")
 		pygame.display.update()
@@ -116,11 +139,11 @@ def abrirCamara():
 			cv2.line(frame, (x_medio_izq, 0), (x_medio_izq, i), (255, 255, 0), 2)
 			dibujarCoordenadas(frame)
 			if (coorX > 0 and coorX < x_medio_izq):
-				pos_X = -2
+				pos_X = -2.5
 			if (coorX >= x_medio_izq and coorX <= x_medio_der):
 				pos_X = 0
 			if (coorX > x_medio_der and coorX < j):
-				pos_X = 2
+				pos_X = 2.5
 			cv2.imshow('camara', frame)
 			if cv2.waitKey(1) & 0xFF == ord('s'):
 				break
@@ -129,7 +152,7 @@ def abrirCamara():
 
 
 def text_objects(text,font):
-    textsurface=font.render(text,True,black)
+    textsurface=font.render(text,True, blue)
     return textsurface,textsurface.get_rect()
 
 def mensaje_display(text):
@@ -182,7 +205,6 @@ def score_system(passed,score,nivel):
     gamedisplays.blit(nivel_text,nivel_rect)
 
 def juego_loop():
-	
 	global pos_X
 	pygame.mixer.music.load("music2_game.mp3")#Musica de fondo
 	pygame.mixer.music.play(-1)#Musica de fondo
@@ -225,7 +247,6 @@ def juego_loop():
 		rel_y=y2%background_arboles.get_rect().width
 		gamedisplays.blit(background_arboles,(0,rel_y-background_arboles.get_rect().width))
 		gamedisplays.blit(background_arboles,(700,rel_y-background_arboles.get_rect().width))
-
 		if rel_y<800:
 			gamedisplays.blit(background_arboles,(0,rel_y))
 			gamedisplays.blit(background_arboles,(700,rel_y))
@@ -249,8 +270,6 @@ def juego_loop():
 		car(x,y)
 		score_system(passed,score,nivel)
 
-
-
 		if x>690-car_width or x<110:
 			choque(x-15,y-15)
 		if x>display_width-(car_width+110) or x<110:
@@ -268,5 +287,7 @@ def juego_loop():
 			if x > obs_startx and x < obs_startx + obs_width or x+car_width > obs_startx and x+car_width < obs_startx+obs_width:
 				choque(x-15,y-15)
 		pygame.display.update()
+
+
 threadCamera = threading.Thread(target=abrirCamara)
 threadCamera.start()

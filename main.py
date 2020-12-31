@@ -1,3 +1,6 @@
+#GOMEZ VELASCO BRIAN JOSEPH
+#PROYECTO - ARQUITECTURA DE COMPUTADORAS
+
 import juego_carreras
 
 def main():
